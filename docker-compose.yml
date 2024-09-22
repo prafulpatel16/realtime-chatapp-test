@@ -1,0 +1,21 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  websocket-backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    restart: always
+
+  nextjs-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_WS_URL=ws://websocket-backend:8080
+    depends_on:
+      - websocket-backend
+    restart: always
